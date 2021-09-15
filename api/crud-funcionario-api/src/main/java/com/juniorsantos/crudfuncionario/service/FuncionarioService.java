@@ -1,67 +1,71 @@
 package com.juniorsantos.crudfuncionario.service;
 
-import com.juniorsantos.crudfuncionario.dto.FuncionarioDto;
-import com.juniorsantos.crudfuncionario.mapper.FuncionarioMapper;
-import com.juniorsantos.crudfuncionario.models.Funcionario;
-import com.juniorsantos.crudfuncionario.repository.FuncionarioRepository;
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
+import com.juniorsantos.crudfuncionario.dto.FuncionarioDto;
+import com.juniorsantos.crudfuncionario.models.Funcionario;
+import com.juniorsantos.crudfuncionario.repository.FuncionarioRepository;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 @Transactional
 public class FuncionarioService {
-    private final FuncionarioRepository repository;
-    private final FuncionarioMapper funcionarioMapper;
+	
+	@Autowired
+    private  FuncionarioRepository funcionarioRepository;
 
-    public FuncionarioService(FuncionarioRepository repository, FuncionarioMapper funcionarioMapper) {
-        this.repository = repository;
-        this.funcionarioMapper = funcionarioMapper;
-    }
 
     public FuncionarioDto save(FuncionarioDto funcionarioDto) {
-        Funcionario entity = funcionarioMapper.toEntity(funcionarioDto);
-        return funcionarioMapper.toDto(repository.save(entity));
+    	Funcionario funcionario = new Funcionario();
+    	funcionario.converterToModel(funcionarioDto);
+        return new FuncionarioDto().converterToDto(funcionarioRepository.save(funcionario));
     }
 
     public void deleteById(Long id) {
-        repository.deleteById(id);
+    	funcionarioRepository.deleteById(id);
     }
-
+    
     public FuncionarioDto findById(Long id) {
-        return funcionarioMapper.toDto(repository.findById(id).orElseThrow(ResourceNotFoundException::new));
+    	return new FuncionarioDto().converterToDto(funcionarioRepository.findById(id).get());
     }
-
+    
     public List<FuncionarioDto> findAll() {
-        List<FuncionarioDto> dtoList = new ArrayList<>();
-        List<Funcionario> funcionarios = repository.findAll();
-
-        if (!funcionarios.isEmpty()){
-            repository.findAll().forEach(toDto -> {
-                dtoList.add(funcionarioMapper.toDto(toDto));
-            });
-        }
-
-        return dtoList;
+    	List<FuncionarioDto> dtoList = new ArrayList<>();
+    	List<Funcionario> funcionarios = funcionarioRepository.findAll();
+    	if (!funcionarios.isEmpty()){
+    		funcionarios.forEach(toDto -> {
+    			dtoList.add(new FuncionarioDto().converterToDto(toDto));
+    		});
+    	}
+    	return dtoList;
     }
-
-    public Page<FuncionarioDto> findByCondition(FuncionarioDto funcionarioDto, Pageable pageable) {
-        Page<Funcionario> entityPage = repository.findAll(pageable);
-        List<Funcionario> entities = entityPage.getContent();
-        return new PageImpl<>(funcionarioMapper.toDto(entities), pageable, entityPage.getTotalElements());
+    
+    public Page<FuncionarioDto> findByCondition(FuncionarioDto funcionarioDto, Pageable pageable){
+    	List<FuncionarioDto> dtoList = new ArrayList<>();
+    	Page<Funcionario> entityPage = funcionarioRepository.findAll(pageable);
+    	List<Funcionario> entities = entityPage.getContent();
+    	entities.forEach(toDto -> {
+			dtoList.add(new FuncionarioDto().converterToDto(toDto));
+		});
+    	return new PageImpl<>(dtoList, pageable, entityPage.getTotalElements());
     }
-
-    public FuncionarioDto update(FuncionarioDto funcionarioDto, Long id) {
-        FuncionarioDto data = findById(id);
-        Funcionario entity = funcionarioMapper.toEntity(funcionarioDto);
-        return save(funcionarioMapper.toDto(entity));
+    
+    public FuncionarioDto update(FuncionarioDto funcionarioDto) {
+    	return save(funcionarioDto);
     }
+    
 }
