@@ -29,7 +29,7 @@ export default function ListarFuncionarios(){
     }
 
     function remove(record){
-        FuncionariosService.deleteFuncionario(record.codigo)
+        FuncionariosService.deleteFuncionario(record.id)
         message.success('Funcionario removido com sucesso!');
     }
 
@@ -59,6 +59,7 @@ export default function ListarFuncionarios(){
                 - e-mail (Validar e-mail)
                 - Número do NIS (PIS) (Somente números) */}
                     <Table dataSource={funcionarios}>
+                        <Column title="id" dataIndex="id" key="id"/>
                         <Column title="Matricúla" dataIndex="matricula" key="matricula"/>
                         <Column title="Nome do Funcionário" dataIndex="nome" key="nome"/>
                         <Column title="Sobrenome do Funcionário" dataIndex="sobrenome" key="sobrenome"/>

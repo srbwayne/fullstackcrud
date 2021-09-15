@@ -8,19 +8,23 @@ import com.juniorsantos.crudfuncionario.models.Funcionario;
 
 
 public class FuncionarioDto {
-
-    @NotBlank
+ 
     private Long id;
-
-    @NotBlank
+ 
     @Size(min = 2, max = 30, message
             = "Deverá ter entre 2 a 30 caracteres")
     private String nome;
-
-    @NotBlank
+  
     @Size(min = 2, max = 50, message
             = "deverá ter entre 2 a 50 caracteres")
     private String sobrenome;
+    
+    @Email(message = "Email tem que ser valido")
+    private String email;
+
+    private Integer nis;
+
+    private Integer matricula;
     
     public FuncionarioDto converterToDto( Funcionario model) {
     	id = model.getId();
@@ -80,15 +84,6 @@ public class FuncionarioDto {
 		this.matricula = matricula;
 	}
 
-	@NotBlank
-    @Email(message = "Email tem que ser valido")
-    private String email;
-
-    @NotBlank
-    private Integer nis;
-
-    @NotBlank
-    private Integer matricula;
     
     
 

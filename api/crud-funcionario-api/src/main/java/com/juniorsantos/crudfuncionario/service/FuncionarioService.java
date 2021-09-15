@@ -30,6 +30,7 @@ public class FuncionarioService {
 
 
     public FuncionarioDto save(FuncionarioDto funcionarioDto) {
+    	System.out.printf("funcionario: ?",funcionarioDto);
     	Funcionario funcionario = new Funcionario();
     	funcionario.converterToModel(funcionarioDto);
         return new FuncionarioDto().converterToDto(funcionarioRepository.save(funcionario));

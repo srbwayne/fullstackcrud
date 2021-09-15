@@ -26,6 +26,7 @@ public class Funcionario {
     public Funcionario() {};
     
     public Funcionario converterToModel(FuncionarioDto dto) {
+    
     	id = dto.getId();
     	nome = dto.getNome();
     	sobrenome = dto.getSobrenome();

@@ -58,7 +58,7 @@ public class FuncionarioController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@RequestBody @Validated FuncionarioDto funcionarioDto, @PathVariable("id") Long id) {
-        funcionarioService.update(funcionarioDto, id);
+        funcionarioService.update(funcionarioDto);
         return ResponseEntity.ok().build();
     }
 }
