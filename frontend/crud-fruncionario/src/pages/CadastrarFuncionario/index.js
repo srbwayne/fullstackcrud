@@ -61,8 +61,8 @@ export default function CadastrarFuncionario(){
                 
                 >
                 <Form.Item
-                    label="Código do ativo"
-                    name="codigoAtivo"
+                    label="matricula"
+                    name="matricula"
                     rules={[
                     {
                         required: true,

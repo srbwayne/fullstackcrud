@@ -59,7 +59,7 @@ export default function ListarFuncionarios(){
                 - e-mail (Validar e-mail)
                 - Número do NIS (PIS) (Somente números) */}
                     <Table dataSource={funcionarios}>
-                        <Column title="Código do ativo" dataIndex="codigoAtivo" key="codigoAtivo"/>
+                        <Column title="Matricúla" dataIndex="matricula" key="matricula"/>
                         <Column title="Nome do Funcionário" dataIndex="nome" key="nome"/>
                         <Column title="Sobrenome do Funcionário" dataIndex="sobrenome" key="sobrenome"/>
                         <Column title="Email" dataIndex="email" key="email"/>
