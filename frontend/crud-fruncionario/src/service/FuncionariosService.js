@@ -12,8 +12,8 @@ class FuncionarioService{
         return axios.post(`${API_URL}/funcionarios`, funcionario)
     }
 
-    deleteFuncionario(codigo){
-        return axios.delete(`${API_URL}/funcionarios/${codigo}`)
+    deleteFuncionario(id){
+        return axios.delete(`${API_URL}/funcionarios/${id}`)
     }
 
     updateFuncionario(funcionario){
